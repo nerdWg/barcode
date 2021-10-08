@@ -1,3 +1,7 @@
+START_END_MARKER = '101'
+CENTER_MARKER = '01010'
+
+
 def number_with_check_digit(number: str):
     return number + calc_check_digit(number)
 
@@ -39,18 +43,55 @@ def g_code_digit(digit: str) -> str:
 
 
 def generate_ean8_code(number: str):
-    start_end_marker = '101'
-    center_marker = '01010'
     return ' '.join([
-        start_end_marker,
+        START_END_MARKER,
         l_code_digit(number[0]),
         l_code_digit(number[1]),
         l_code_digit(number[2]),
         l_code_digit(number[3]),
-        center_marker,
+        CENTER_MARKER,
         r_code_digit(number[4]),
         r_code_digit(number[5]),
         r_code_digit(number[6]),
         r_code_digit(number[7]),
-        start_end_marker
+        START_END_MARKER
     ])
+
+
+def generate_ean13_code(number: str):
+    ean13_list = [
+        START_END_MARKER,
+        *encode_first_group(number),
+        CENTER_MARKER,
+        *encode_last_group(number[7:]),
+        START_END_MARKER
+    ]
+
+    return ' '.join(ean13_list)
+
+
+def encode_last_group(number):
+    return [r_code_digit(digit) for digit in number]
+
+
+def encode_first_group(number):
+    ean13_structure = {
+        "0": "LLLLLL",
+        "1": "LLGLGG",
+        "2": "LLGGLG",
+        "3": "LLGGGL",
+        "4": "LGLLGG",
+        "5": "LGGLLG",
+        "6": "LGGGLL",
+        "7": "LGLGLG",
+        "8": "LGLGGL",
+        "9": "LGGLGL"
+    }
+    groupings = ean13_structure[number[0]]
+    left_list = []
+    for digit, encoding in zip(number[1:7], groupings):
+        if encoding == "L":
+            left_list.append(l_code_digit(digit))
+        else:
+            left_list.append(g_code_digit(digit))
+    return left_list
