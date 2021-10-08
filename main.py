@@ -1,7 +1,11 @@
-def calc_check_digit(digits: str) -> int:
+def number_with_check_digit(number: str):
+    return number + calc_check_digit(number)
+
+
+def calc_check_digit(digits: str) -> str:
     odds_sum = sum_digits(digits[-1::-2])
     evens_sum = sum_digits(digits[-2::-2])
-    return (10 - ((odds_sum * 3 + evens_sum) % 10)) % 10
+    return str((10 - ((odds_sum * 3 + evens_sum) % 10)) % 10)
 
 
 def sum_digits(digits: str) -> int:
