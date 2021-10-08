@@ -36,3 +36,21 @@ def r_code_digit(digit: str) -> str:
 def g_code_digit(digit: str) -> str:
     r_code = r_code_digit(digit)
     return r_code[::-1]
+
+
+def generate_ean8_code(number: str):
+    start_end_marker = '101'
+    center_marker = '01010'
+    return ' '.join([
+        start_end_marker,
+        l_code_digit(number[0]),
+        l_code_digit(number[1]),
+        l_code_digit(number[2]),
+        l_code_digit(number[3]),
+        center_marker,
+        r_code_digit(number[4]),
+        r_code_digit(number[5]),
+        r_code_digit(number[6]),
+        r_code_digit(number[7]),
+        start_end_marker
+    ])
