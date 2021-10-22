@@ -6,34 +6,53 @@ START_END_MARKER = '101'
 
 
 def create_ean8_image(number: str):
-    code = generate_ean8_code(number_with_check_digit(number)).replace(" ", "")
-    create_image(code)
+    number_with_check_digit = create_number_with_check_digit(number)
+    code = generate_ean8_code(number_with_check_digit).replace(" ", "")
+    create_image(code, 'barcode_ean8.svg')
 
 
 def create_ean13_image(number: str):
-    code = generate_ean13_code(number_with_check_digit(number)).replace(" ", "")
-    print(code)
-    create_image(code)
+    number_with_check_digit = create_number_with_check_digit(number)
+    code = generate_ean13_code(number_with_check_digit).replace(" ", "")
+    create_image(code, 'barcode_ean13.svg')
 
 
-def create_image(code: str):
-    stroke_width = 0.2
-    width = len(code) + 10
-    height = 20
-    offset_x = 5
-    dwg = svgwrite.Drawing('test.svg', size=(width, height))
+def create_image(code: str, filename: str):
+    stroke_width = .2
+    margin = 5
+    image_width = len(code) * stroke_width + 2 * margin
+    image_height = 20
+    drawing = svgwrite.Drawing(filename, size=(image_width, image_height))
+    foreground = 'black'
+    background = 'white'
+    shapes = drawing.add(drawing.g(id='shapes', fill=background))
+    shapes.add(drawing.rect(insert=(0, 0), size=(image_width, image_height)))
 
-    shapes = dwg.add(dwg.g(id='shapes', fill='white'))
-    # override the 'fill' attribute of the parent group 'shapes'
-    shapes.add(dwg.rect(insert=(0, 0), size=(width, height), fill='white'))
+    current_offset = margin
+    for bit, run_length in runs(code):
+        bar_width = stroke_width * run_length
+        if bit == '1':
+            shapes.add(drawing.rect(
+                insert=(current_offset, margin),
+                size=(bar_width, image_height - 2 * margin),
+                fill=foreground
+            ))
+        current_offset += bar_width
 
-    for i, bit in enumerate(code):
-        color = 'white' if bit == '0' else 'black'
-        dwg.add(dwg.line((i * stroke_width + offset_x, 5), (i * stroke_width + offset_x, 15), stroke=color, stroke_width=stroke_width * 1.1))
-    dwg.save()
+    drawing.save()
 
 
-def number_with_check_digit(number: str):
+def runs(code: str):
+    current_runs = [[code[0], 1]]
+    for bit in code[1:]:
+        if bit == current_runs[-1][0]:
+            current_runs[-1][1] += 1
+        else:
+            current_runs.append([bit, 1])
+    return current_runs
+
+
+def create_number_with_check_digit(number: str):
     return number + calc_check_digit(number)
 
 
@@ -129,5 +148,5 @@ def encode_first_group(number):
 
 
 if __name__ == '__main__':
-    create_ean8_image('9638507')
-    # create_ean13_image('871125300120')
+    create_ean13_image('202111061500')
+    create_ean8_image('1040788')
