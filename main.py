@@ -1,4 +1,5 @@
 import svgwrite
+from svgwrite.mixins import ViewBox
 
 CENTER_MARKER = '01010'
 
@@ -8,13 +9,17 @@ START_END_MARKER = '101'
 def create_ean8_image(number: str):
     number_with_check_digit = create_number_with_check_digit(number)
     code = generate_ean8_code(number_with_check_digit).replace(" ", "")
-    create_image(code, 'barcode_ean8.svg')
+    svg = create_image(code, 'barcode_ean8.svg')
+    svg.save()
+    return svg.tostring()
 
 
 def create_ean13_image(number: str):
     number_with_check_digit = create_number_with_check_digit(number)
     code = generate_ean13_code(number_with_check_digit).replace(" ", "")
-    create_image(code, 'barcode_ean13.svg')
+    svg = create_image(code, 'barcode_ean13.svg')
+    svg.save()
+    return svg.tostring()
 
 
 def create_image(code: str, filename: str):
@@ -22,7 +27,8 @@ def create_image(code: str, filename: str):
     margin = 5
     image_width = len(code) * stroke_width + 2 * margin
     image_height = 20
-    drawing = svgwrite.Drawing(filename, size=(image_width, image_height))
+    drawing = svgwrite.Drawing(filename, size=(str(image_width) + "mm", str(image_height) + "mm"),
+                               viewBox=('0 0 ' + str(image_width) + ' 20'))
     foreground = 'black'
     background = 'white'
     shapes = drawing.add(drawing.g(id='shapes', fill=background))
@@ -38,8 +44,7 @@ def create_image(code: str, filename: str):
                 fill=foreground
             ))
         current_offset += bar_width
-
-    drawing.save()
+    return drawing
 
 
 def runs(code: str):
