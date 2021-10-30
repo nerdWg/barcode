@@ -17,12 +17,12 @@ pactWith({ consumer: "frontend", provider: "backend" }, (provider) => {
           method: "GET",
           path: "/barcode8/0000000",
           headers: {
-            Accept: "application/json",
+            Accept: "text/plain",
           },
         },
         willRespondWith: {
           status: 200,
-          headers: { "Content-Type": "application/json; charset=utf-8" },
+          headers: { "Content-Type": "text/plain; charset=utf-8" },
           body: term({
             generate:
               "101 0001101 0001101 0001101 0001101 0001101 0001101 01010 1110010 1110010 1110010 1110010 1110010 1110010 101",
@@ -54,12 +54,12 @@ pactWith({ consumer: "frontend", provider: "backend" }, (provider) => {
           method: "GET",
           path: "/barcode13/012345678901",
           headers: {
-            Accept: "application/json",
+            Accept: "text/plain",
           },
         },
         willRespondWith: {
           status: 200,
-          headers: { "Content-Type": "application/json; charset=utf-8" },
+          headers: { "Content-Type": "text/plain; charset=utf-8" },
           body: like(
             "101 0001101 0001101 0001101 0001101 0001101 0001101 01010 1110010 1110010 1110010 1110010 1110010 1110010 101"
           ),

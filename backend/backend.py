@@ -13,12 +13,12 @@ def list_barcodes():
 
 @app.route("/barcode8/<string:barcode>")
 def barcode8(barcode):
-    return create_ean8_code(barcode)
+    return Response(create_ean8_code(barcode), mimetype="text/plain")
 
 
 @app.route("/barcode13/<string:barcode>")
 def barcode13(barcode):
-    return create_ean13_code(barcode)
+    return Response(create_ean13_code(barcode), mimetype="text/plain")
 
 
 @app.route("/bc8_svg/<barcode>")

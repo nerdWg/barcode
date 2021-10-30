@@ -12,13 +12,13 @@
         "method": "GET",
         "path": "/barcode8/0000000",
         "headers": {
-          "Accept": "application/json"
+          "Accept": "text/plain"
         }
       },
       "response": {
         "status": 200,
         "headers": {
-          "Content-Type": "application/json; charset=utf-8"
+          "Content-Type": "text/plain; charset=utf-8"
         },
         "body": "101 0001101 0001101 0001101 0001101 0001101 0001101 01010 1110010 1110010 1110010 1110010 1110010 1110010 101",
         "matchingRules": {
@@ -35,13 +35,13 @@
         "method": "GET",
         "path": "/barcode13/012345678901",
         "headers": {
-          "Accept": "application/json"
+          "Accept": "text/plain"
         }
       },
       "response": {
         "status": 200,
         "headers": {
-          "Content-Type": "application/json; charset=utf-8"
+          "Content-Type": "text/plain; charset=utf-8"
         },
         "body": "101 0001101 0001101 0001101 0001101 0001101 0001101 01010 1110010 1110010 1110010 1110010 1110010 1110010 101",
         "matchingRules": {
@@ -55,9 +55,9 @@
       "description": "a request to get an EAN8 barcode",
       "request": {
         "method": "GET",
-        "path": "/barcode8/0000000",
+        "path": "/bc8_svg/0000000",
         "headers": {
-          "Accept": "application/json"
+          "Accept": "image/svg+xml"
         }
       },
       "response": {
@@ -65,11 +65,11 @@
         "headers": {
           "Content-Type": "image/svg+xml; charset=utf-8"
         },
-        "body": "<?xml version=\"1.0\" encoding=\"utf-8\" ?><svg></svg>",
+        "body": "<svg></svg>",
         "matchingRules": {
           "$.body": {
             "match": "regex",
-            "regex": "^<\\?xml version=\"1.0\" encoding=\"utf-8\" \\?>\\s*<svg.*<\\/svg>$"
+            "regex": "<svg.*<\\/svg>$"
           }
         }
       }
@@ -78,9 +78,9 @@
       "description": "a request to get an EAN13 barcode",
       "request": {
         "method": "GET",
-        "path": "/barcode13/012345678901",
+        "path": "/bc13_svg/012345678901",
         "headers": {
-          "Accept": "application/json"
+          "Accept": "image/svg+xml"
         }
       },
       "response": {
@@ -88,11 +88,11 @@
         "headers": {
           "Content-Type": "image/svg+xml; charset=utf-8"
         },
-        "body": "<?xml version=\"1.0\" encoding=\"utf-8\" ?><svg></svg>",
+        "body": "<svg></svg>",
         "matchingRules": {
           "$.body": {
             "match": "regex",
-            "regex": "^<\\?xml version=\"1.0\" encoding=\"utf-8\" \\?>\\s*<svg.*<\\/svg>$"
+            "regex": "<svg.*<\\/svg>$"
           }
         }
       }

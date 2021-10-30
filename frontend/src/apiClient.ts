@@ -9,7 +9,10 @@ export const fetchBinaryCode = async (
   type: string
 ): Promise<string> => {
   const url = type === "ean8" ? "barcode8" : "barcode13";
-  const response = await axios.get(`/${url}/${code}`);
+  const response = await axios.get(
+    `/${url}/${code}`,
+    { headers: { Accept: "text/plain" } }
+  );
   return await response.data;
 };
 
@@ -18,6 +21,8 @@ export const fetchBarCode = async (
   type: string
 ): Promise<string> => {
   const url = type === "ean8" ? "bc8_svg" : "bc13_svg";
-  const response = await axios.get(`/${url}/${code}`);
+  const response = await axios.get(`/${url}/${code}`, {
+    headers: { Accept: "image/svg+xml" },
+  });
   return await response.data;
 };
