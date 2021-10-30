@@ -1,29 +1,37 @@
+import os
+
 import svgwrite
+from svgwrite import Drawing
 
 CENTER_MARKER = '01010'
 
 START_END_MARKER = '101'
 
 
-def create_ean13_image(number: str):
+def create_ean13_image_xml(number: str) -> str:
+    return create_ean13_image(number).tostring()
+
+
+def create_ean13_image(number: str) -> Drawing:
     code = create_ean13_code(number).replace(" ", "")
     svg = create_image(code)
-    svg.saveas('output/barcode_ean13.svg')
-    return svg.tostring()
+    return svg
 
 
-def create_ean13_code(number: str):
+def create_ean13_code(number: str) -> str:
     if len(number) != 12:
         raise Exception("Number must be 12 digits long")
     number_with_check_digit = create_number_with_check_digit(number)
     return _generate_ean13_code(number_with_check_digit)
 
 
-def create_ean8_image(number: str):
+def create_ean8_image_xml(number: str) -> str:
+    return create_ean8_image(number).tostring()
+
+
+def create_ean8_image(number: str) -> Drawing:
     code = create_ean8_code(number).replace(" ", "")
-    svg = create_image(code)
-    svg.saveas('output/barcode_ean8.svg')
-    return svg.tostring()
+    return create_image(code)
 
 
 def create_ean8_code(number: str):
@@ -33,13 +41,15 @@ def create_ean8_code(number: str):
     return _generate_ean8_code(number_with_check_digit)
 
 
-def create_image(code: str):
+def create_image(code: str) -> Drawing:
     stroke_width = 5
     margin = 100
     image_width = len(code) * stroke_width + 2 * margin
     image_height = 500
-    drawing = svgwrite.Drawing(size=(image_width, image_height),
-                               viewBox=f'0 0 {image_width} {image_height}')
+    drawing = svgwrite.Drawing(
+        size=(image_width, image_height),
+        viewBox=f'0 0 {image_width} {image_height}'
+    )
     foreground = 'black'
     background = 'white'
     shapes = drawing.add(drawing.g(id='shapes', fill=background))
@@ -164,5 +174,6 @@ def encode_first_group(number):
 
 
 if __name__ == '__main__':
-    create_ean13_image('202111061500')
-    create_ean8_image('1040788')
+    os.makedirs('output', exist_ok=True)
+    create_ean13_image('202111061500').saveas('output/barcode_ean13.svg')
+    create_ean8_image('1040788').saveas('output/barcode_ean8.svg')
