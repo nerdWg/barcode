@@ -21,7 +21,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "pact": "jest **/*.contract.test.ts",
+    "pact": "jest **/*.contract.test.ts --runInBand",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

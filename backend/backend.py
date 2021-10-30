@@ -11,21 +11,22 @@ def list_barcodes():
     return jsonify(["ean8", "ean13"])
 
 
-@app.route("/barcode8/<string:barcode>")
+from flask import request
+
+
+@app.route("/barcode8/<barcode>")
 def barcode8(barcode):
-    return Response(create_ean8_code(barcode), mimetype="text/plain")
+    accept_header = request.headers.get('Accept')
+    if accept_header == 'image/svg+xml':
+        return Response(create_ean8_image_xml(barcode), mimetype="image/svg+xml")
+    elif accept_header == 'text/plain':
+        return Response(create_ean8_code(barcode), mimetype="text/plain")
 
 
-@app.route("/barcode13/<string:barcode>")
+@app.route("/barcode13/<barcode>")
 def barcode13(barcode):
-    return Response(create_ean13_code(barcode), mimetype="text/plain")
-
-
-@app.route("/bc8_svg/<barcode>")
-def generate_bc8_svg(barcode):
-    return Response(create_ean8_image_xml(barcode), mimetype="image/svg+xml")
-
-
-@app.route("/bc13_svg/<barcode>")
-def generate_bc13_svg(barcode):
-    return Response(create_ean13_image_xml(barcode), mimetype="image/svg+xml")
+    accept_header = request.headers.get('Accept')
+    if accept_header == 'image/svg+xml':
+        return Response(create_ean13_image_xml(barcode), mimetype="image/svg+xml")
+    elif accept_header == 'text/plain':
+        return Response(create_ean13_code(barcode), mimetype="text/plain")

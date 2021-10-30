@@ -7,24 +7,47 @@
   },
   "interactions": [
     {
-      "description": "a request to get an EAN8 binary code",
+      "description": "a request to get an EAN8 barcode",
       "request": {
         "method": "GET",
         "path": "/barcode8/0000000",
         "headers": {
-          "Accept": "text/plain"
+          "Accept": "image/svg+xml"
         }
       },
       "response": {
         "status": 200,
         "headers": {
-          "Content-Type": "text/plain; charset=utf-8"
+          "Content-Type": "image/svg+xml; charset=utf-8"
         },
-        "body": "101 0001101 0001101 0001101 0001101 0001101 0001101 01010 1110010 1110010 1110010 1110010 1110010 1110010 101",
+        "body": "<svg></svg>",
         "matchingRules": {
           "$.body": {
             "match": "regex",
-            "regex": "^[01 ]+$"
+            "regex": "<svg.*<\\/svg>$"
+          }
+        }
+      }
+    },
+    {
+      "description": "a request to get an EAN13 barcode",
+      "request": {
+        "method": "GET",
+        "path": "/barcode13/012345678901",
+        "headers": {
+          "Accept": "image/svg+xml"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "image/svg+xml; charset=utf-8"
+        },
+        "body": "<svg></svg>",
+        "matchingRules": {
+          "$.body": {
+            "match": "regex",
+            "regex": "<svg.*<\\/svg>$"
           }
         }
       }
@@ -52,47 +75,24 @@
       }
     },
     {
-      "description": "a request to get an EAN8 barcode",
+      "description": "a request to get an EAN8 binary code",
       "request": {
         "method": "GET",
-        "path": "/bc8_svg/0000000",
+        "path": "/barcode8/0000000",
         "headers": {
-          "Accept": "image/svg+xml"
+          "Accept": "text/plain"
         }
       },
       "response": {
         "status": 200,
         "headers": {
-          "Content-Type": "image/svg+xml; charset=utf-8"
+          "Content-Type": "text/plain; charset=utf-8"
         },
-        "body": "<svg></svg>",
+        "body": "101 0001101 0001101 0001101 0001101 0001101 0001101 01010 1110010 1110010 1110010 1110010 1110010 1110010 101",
         "matchingRules": {
           "$.body": {
             "match": "regex",
-            "regex": "<svg.*<\\/svg>$"
-          }
-        }
-      }
-    },
-    {
-      "description": "a request to get an EAN13 barcode",
-      "request": {
-        "method": "GET",
-        "path": "/bc13_svg/012345678901",
-        "headers": {
-          "Accept": "image/svg+xml"
-        }
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-          "Content-Type": "image/svg+xml; charset=utf-8"
-        },
-        "body": "<svg></svg>",
-        "matchingRules": {
-          "$.body": {
-            "match": "regex",
-            "regex": "<svg.*<\\/svg>$"
+            "regex": "^[01 ]+$"
           }
         }
       }
