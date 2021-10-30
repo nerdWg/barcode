@@ -1,34 +1,45 @@
 import svgwrite
-from svgwrite.mixins import ViewBox
 
 CENTER_MARKER = '01010'
 
 START_END_MARKER = '101'
 
 
-def create_ean8_image(number: str):
-    number_with_check_digit = create_number_with_check_digit(number)
-    code = generate_ean8_code(number_with_check_digit).replace(" ", "")
-    svg = create_image(code, 'barcode_ean8.svg')
-    svg.save()
-    return svg.tostring()
-
-
 def create_ean13_image(number: str):
-    number_with_check_digit = create_number_with_check_digit(number)
-    code = generate_ean13_code(number_with_check_digit).replace(" ", "")
-    svg = create_image(code, 'barcode_ean13.svg')
-    svg.save()
+    code = create_ean13_code(number).replace(" ", "")
+    svg = create_image(code)
+    svg.saveas('output/barcode_ean13.svg')
     return svg.tostring()
 
 
-def create_image(code: str, filename: str):
-    stroke_width = .2
-    margin = 5
+def create_ean13_code(number: str):
+    if len(number) != 12:
+        raise Exception("Number must be 12 digits long")
+    number_with_check_digit = create_number_with_check_digit(number)
+    return _generate_ean13_code(number_with_check_digit)
+
+
+def create_ean8_image(number: str):
+    code = create_ean8_code(number).replace(" ", "")
+    svg = create_image(code)
+    svg.saveas('output/barcode_ean8.svg')
+    return svg.tostring()
+
+
+def create_ean8_code(number: str):
+    if len(number) != 7:
+        raise Exception("Number must be 7 digits long")
+    number_with_check_digit = create_number_with_check_digit(number)
+    return _generate_ean8_code(number_with_check_digit)
+
+
+def create_image(code: str):
+    stroke_width = 5
+    margin = 100
     image_width = len(code) * stroke_width + 2 * margin
-    image_height = 20
-    drawing = svgwrite.Drawing(filename, size=(str(image_width) + "mm", str(image_height) + "mm"),
-                               viewBox=('0 0 ' + str(image_width) + ' 20'))
+    image_height = 500
+    drawing = svgwrite.Drawing(size=(image_width, image_height),
+                               viewBox=f'0 0 {image_width} {image_height}')
     foreground = 'black'
     background = 'white'
     shapes = drawing.add(drawing.g(id='shapes', fill=background))
@@ -97,7 +108,7 @@ def g_code_digit(digit: str) -> str:
     return r_code[::-1]
 
 
-def generate_ean8_code(number: str):
+def _generate_ean8_code(number: str):
     return ' '.join([
         START_END_MARKER,
         l_code_digit(number[0]),
@@ -113,7 +124,7 @@ def generate_ean8_code(number: str):
     ])
 
 
-def generate_ean13_code(number: str):
+def _generate_ean13_code(number: str):
     ean13_list = [
         START_END_MARKER,
         *encode_first_group(number),

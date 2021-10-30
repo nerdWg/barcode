@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, Response
-from main import generate_ean8_code, generate_ean13_code, create_ean8_image, create_ean13_image
+from main import create_ean8_image, create_ean13_image, create_ean8_code, \
+    create_ean13_code
 
 app = Flask(__name__)
 
@@ -16,12 +17,12 @@ def list_barcodes():
 
 @app.route("/barcode8/<string:barcode>")
 def barcode8(barcode):
-    return generate_ean8_code(barcode)
+    return create_ean8_code(barcode)
 
 
 @app.route("/barcode13/<string:barcode>")
 def barcode13(barcode):
-    return generate_ean13_code(barcode)
+    return create_ean13_code(barcode)
 
 
 @app.route("/bc8_svg/<barcode>")
