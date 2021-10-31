@@ -15,7 +15,7 @@ pactWith({ consumer: "frontend", provider: "backend" }, (provider) => {
         uponReceiving: "a request to get an EAN8 binary code",
         withRequest: {
           method: "GET",
-          path: "/barcode8/0000000",
+          path: "/barcode/ean8/0000000",
           headers: {
             Accept: "text/plain",
           },
@@ -52,7 +52,7 @@ pactWith({ consumer: "frontend", provider: "backend" }, (provider) => {
         uponReceiving: "a request to get an EAN13 binary code",
         withRequest: {
           method: "GET",
-          path: "/barcode13/012345678901",
+          path: "/barcode/ean13/012345678901",
           headers: {
             Accept: "text/plain",
           },

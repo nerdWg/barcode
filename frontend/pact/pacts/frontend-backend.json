@@ -10,7 +10,7 @@
       "description": "a request to get an EAN8 barcode",
       "request": {
         "method": "GET",
-        "path": "/barcode8/0000000",
+        "path": "/barcode/ean8/0000000",
         "headers": {
           "Accept": "image/svg+xml"
         }
@@ -33,7 +33,7 @@
       "description": "a request to get an EAN13 barcode",
       "request": {
         "method": "GET",
-        "path": "/barcode13/012345678901",
+        "path": "/barcode/ean13/012345678901",
         "headers": {
           "Accept": "image/svg+xml"
         }
@@ -56,7 +56,7 @@
       "description": "a request to get an EAN13 binary code",
       "request": {
         "method": "GET",
-        "path": "/barcode13/012345678901",
+        "path": "/barcode/ean13/012345678901",
         "headers": {
           "Accept": "text/plain"
         }
@@ -78,7 +78,7 @@
       "description": "a request to get an EAN8 binary code",
       "request": {
         "method": "GET",
-        "path": "/barcode8/0000000",
+        "path": "/barcode/ean8/0000000",
         "headers": {
           "Accept": "text/plain"
         }
