@@ -92,6 +92,10 @@ def sum_digits(digits: str) -> int:
     return sum(map(int, digits))
 
 
+def is_valid_barcode(barcode: str) -> bool:
+    return calc_check_digit(barcode[:-1]) == barcode[-1]
+
+
 def l_code_digit(digit: str) -> str:
     l_codes = {
         "0": "0001101",
