@@ -1,6 +1,22 @@
+import os
+
+from svgwrite import Drawing
+
+from barcode import create_image
+
 CENTER_MARKER = '01010'
 
 START_END_MARKER = '101'
+
+
+def create_ean13_image(number: str) -> Drawing:
+    code = generate_ean13_code(number).replace(" ", "")
+    return create_image(code)
+
+
+def create_ean8_image(number: str) -> Drawing:
+    code = generate_ean8_code(number).replace(" ", "")
+    return create_image(code)
 
 
 def l_code_digit(digit: str) -> str:
@@ -30,6 +46,8 @@ def g_code_digit(digit: str) -> str:
 
 
 def generate_ean8_code(number: str):
+    if len(number) != 8:
+        raise ValueError("Number must be 8 digits long")
     return ' '.join([
         START_END_MARKER,
         l_code_digit(number[0]),
@@ -46,6 +64,8 @@ def generate_ean8_code(number: str):
 
 
 def generate_ean13_code(number: str):
+    if len(number) != 13:
+        raise ValueError("Number must be 13 digits long")
     ean13_list = [
         START_END_MARKER,
         *encode_first_group(number),
@@ -82,3 +102,9 @@ def encode_first_group(number):
         else:
             left_list.append(g_code_digit(digit))
     return left_list
+
+
+if __name__ == '__main__':
+    os.makedirs('output', exist_ok=True)
+    create_ean8_image('1040788').saveas('output/barcode_ean8.svg')
+    create_ean13_image('202111061500').saveas('output/barcode_ean13.svg')
