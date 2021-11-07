@@ -23,6 +23,8 @@ export const fetchBarCode = async (
 };
 
 export const fetchBarCodeList = async (): Promise<string[]> => {
-  const response = await axios.get("/barcodes", {});
+  const response = await axios.get("/barcodes", {
+    headers: { Accept: "application/json" },
+  });
   return await response.data;
 };
