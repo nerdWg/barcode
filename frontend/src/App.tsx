@@ -15,7 +15,7 @@ function App() {
   return (
     <div className="App">
       <h1>Barcode</h1>
-      <input value={data} onChange={(e) => setData(e.target.value)} />
+      <textarea value={data} onChange={(e) => setData(e.target.value)} />
       <select
         value={type}
         onChange={(e) => {
