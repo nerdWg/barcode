@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 @app.route("/barcodes")
 def list_barcodes():
-    return jsonify(["ean8", "ean13", "code39"])
+    return jsonify(["ean8", "ean13", "code39", "code128"])
 
 
 @app.route("/barcode/<barcode_type>", methods=['POST'])
