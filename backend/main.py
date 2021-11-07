@@ -15,7 +15,7 @@ def get_available_barcode_types() -> [str]:
     return list(CODE_FUNCTIONS.keys())
 
 
-def create_image_xml(number: str, type: str) -> str:
+def create_svg_xml(number: str, type: str) -> str:
     code = create_code(number, type)
     return barcode.create_image_xml(code.replace(" ", ""))
 
