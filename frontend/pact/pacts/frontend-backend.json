@@ -9,11 +9,13 @@
     {
       "description": "a request to get an EAN8 barcode",
       "request": {
-        "method": "GET",
-        "path": "/barcode/ean8/0000000",
+        "method": "POST",
+        "path": "/barcode/ean8",
         "headers": {
-          "Accept": "image/svg+xml"
-        }
+          "Accept": "image/svg+xml",
+          "Content-Type": "text/plain"
+        },
+        "body": "0000000"
       },
       "response": {
         "status": 200,
@@ -32,11 +34,13 @@
     {
       "description": "a request to get an EAN13 barcode",
       "request": {
-        "method": "GET",
-        "path": "/barcode/ean13/012345678901",
+        "method": "POST",
+        "path": "/barcode/ean13",
         "headers": {
-          "Accept": "image/svg+xml"
-        }
+          "Accept": "image/svg+xml",
+          "Content-Type": "text/plain"
+        },
+        "body": "012345678901"
       },
       "response": {
         "status": 200,
@@ -55,11 +59,13 @@
     {
       "description": "a request to get an EAN13 binary code",
       "request": {
-        "method": "GET",
-        "path": "/barcode/ean13/012345678901",
+        "method": "POST",
+        "path": "/barcode/ean13",
         "headers": {
-          "Accept": "text/plain"
-        }
+          "Accept": "text/plain",
+          "Content-Type": "text/plain"
+        },
+        "body": "012345678901"
       },
       "response": {
         "status": 200,
@@ -77,11 +83,13 @@
     {
       "description": "a request to get an EAN8 binary code",
       "request": {
-        "method": "GET",
-        "path": "/barcode/ean8/0000000",
+        "method": "POST",
+        "path": "/barcode/ean8",
         "headers": {
-          "Accept": "text/plain"
-        }
+          "Accept": "text/plain",
+          "Content-Type": "text/plain"
+        },
+        "body": "0000000"
       },
       "response": {
         "status": 200,
@@ -93,6 +101,31 @@
           "$.body": {
             "match": "regex",
             "regex": "^[01 ]+$"
+          }
+        }
+      }
+    },
+    {
+      "description": "a request to get an CODE39 barcode",
+      "request": {
+        "method": "POST",
+        "path": "/barcode/code39",
+        "headers": {
+          "Accept": "image/svg+xml",
+          "Content-Type": "text/plain"
+        },
+        "body": "ABCDEFGHIJKLMNOPQRSTUVWXZ01234567890$./ -%+"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "image/svg+xml; charset=utf-8"
+        },
+        "body": "<svg></svg>",
+        "matchingRules": {
+          "$.body": {
+            "match": "regex",
+            "regex": "<svg.*<\\/svg>$"
           }
         }
       }

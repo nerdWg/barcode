@@ -1,7 +1,7 @@
 from svgwrite import Drawing
 
 
-def create_image(code: str) -> Drawing:
+def create_image_xml(code: str) -> str:
     stroke_width = 5
     margin = 100
     image_width = len(code) * stroke_width + 2 * margin
@@ -25,7 +25,7 @@ def create_image(code: str) -> Drawing:
                 fill=foreground
             ))
         current_offset += bar_width
-    return drawing
+    return drawing.tostring()
 
 
 def runs(code: str):

@@ -1,20 +1,21 @@
-from ean import generate_ean13_code, generate_ean8_code, create_ean8_image, create_ean13_image
+import barcode
+from code39 import generate_code39_code
+from ean import generate_ean13_code, generate_ean8_code
 
 
 def create_image_xml(number: str, type: str) -> str:
-    number_with_check_digit = create_number_with_check_digit(number)
-    if type == 'ean8':
-        return create_ean8_image(number_with_check_digit).tostring()
-    elif type == 'ean13':
-        return create_ean13_image(number_with_check_digit).tostring()
+    code = create_code(number, type)
+    return barcode.create_image_xml(code.replace(" ", ""))
 
 
 def create_code(number: str, type: str) -> str:
-    number_with_check_digit = create_number_with_check_digit(number)
-    if type == 'ean8':
-        return generate_ean8_code(number_with_check_digit)
-    elif type == 'ean13':
-        return generate_ean13_code(number_with_check_digit)
+    if type.startswith('ean'):
+        number = create_number_with_check_digit(number)
+    return {
+        'ean8': generate_ean8_code,
+        'ean13': generate_ean13_code,
+        'code39': generate_code39_code
+    }[type](number)
 
 
 def create_number_with_check_digit(number: str):

@@ -14,11 +14,13 @@ pactWith({ consumer: "frontend", provider: "backend" }, (provider) => {
         state: "",
         uponReceiving: "a request to get an EAN8 binary code",
         withRequest: {
-          method: "GET",
-          path: "/barcode/ean8/0000000",
+          method: "POST",
+          path: "/barcode/ean8",
           headers: {
             Accept: "text/plain",
+            "Content-Type": "text/plain",
           },
+          body: "0000000",
         },
         willRespondWith: {
           status: 200,
@@ -51,10 +53,12 @@ pactWith({ consumer: "frontend", provider: "backend" }, (provider) => {
         state: "",
         uponReceiving: "a request to get an EAN13 binary code",
         withRequest: {
-          method: "GET",
-          path: "/barcode/ean13/012345678901",
+          method: "POST",
+          path: "/barcode/ean13",
+          body: "012345678901",
           headers: {
             Accept: "text/plain",
+            "Content-Type": "text/plain",
           },
         },
         willRespondWith: {
