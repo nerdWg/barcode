@@ -1,4 +1,4 @@
-from main import is_valid_barcode
+from ean import is_valid_barcode
 
 
 def test_valid_ean8_barcode():

@@ -1,4 +1,4 @@
-from main import create_number_with_check_digit
+from ean import create_number_with_check_digit
 
 
 def test_ean8():

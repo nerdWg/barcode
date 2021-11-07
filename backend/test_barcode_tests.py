@@ -1,4 +1,4 @@
-from main import calc_check_digit
+from ean import calc_check_digit
 
 
 def test_0000000_yields_0():
