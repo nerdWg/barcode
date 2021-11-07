@@ -21,3 +21,10 @@ export const fetchBarCode = async (
   });
   return await response.data;
 };
+
+export const fetchBarCodeList = async (): Promise<string[]> => {
+  const response = await axios.get("/barcodes", {
+
+  })
+  return await response.data;
+}
