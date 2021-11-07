@@ -1,14 +1,14 @@
 from flask import Flask, jsonify, Response
 from flask import request
 
-from main import create_code, create_image_xml
+from main import create_code, create_image_xml, get_available_barcode_types
 
 app = Flask(__name__)
 
 
 @app.route("/barcodes")
 def list_barcodes():
-    return jsonify(["ean8", "ean13", "code39", "code128"])
+    return jsonify(get_available_barcode_types())
 
 
 @app.route("/barcode/<barcode_type>", methods=['POST'])

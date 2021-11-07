@@ -3,6 +3,17 @@ from code128 import generate_code128_code
 from code39 import generate_code39_code
 from ean import generate_ean13_code, generate_ean8_code
 
+CODE_FUNCTIONS = {
+    'ean8': generate_ean8_code,
+    'ean13': generate_ean13_code,
+    'code39': generate_code39_code,
+    'code128': generate_code128_code,
+}
+
+
+def get_available_barcode_types() -> [str]:
+    return list(CODE_FUNCTIONS.keys())
+
 
 def create_image_xml(number: str, type: str) -> str:
     code = create_code(number, type)
@@ -12,12 +23,7 @@ def create_image_xml(number: str, type: str) -> str:
 def create_code(number: str, type: str) -> str:
     if type.startswith('ean'):
         number = create_number_with_check_digit(number)
-    return {
-        'ean8': generate_ean8_code,
-        'ean13': generate_ean13_code,
-        'code39': generate_code39_code,
-        'code128': generate_code128_code,
-    }[type](number)
+    return CODE_FUNCTIONS[type](number)
 
 
 def create_number_with_check_digit(number: str):
